@@ -1,0 +1,9 @@
+{
+    "type": "object",
+    "properties": {
+        "itemType": {
+            "type": "string",
+            "format": "string"
+        }
+    }
+}

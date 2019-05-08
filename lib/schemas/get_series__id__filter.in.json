@@ -1,0 +1,17 @@
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+        },
+        "keys": {
+            "required": true,
+            "type": "string"
+        },
+        "Accept_Language": {
+            "type": "string"
+        }
+    }
+}

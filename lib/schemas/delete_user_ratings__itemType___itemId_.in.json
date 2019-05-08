@@ -1,0 +1,15 @@
+{
+    "type": "object",
+    "properties": {
+        "itemType": {
+            "required": true,
+            "type": "string",
+            "format": "string"
+        },
+        "itemId": {
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+        }
+    }
+}

@@ -1,0 +1,550 @@
+{
+    "title": "TheTVDB API v2",
+    "description": "API v2 targets v1 functionality with a few minor additions. The API is accessible via https://api.thetvdb.com and provides the following REST endpoints in JSON format.\n\n\nHow to use this API documentation\n----------------\n\n\nYou may browse the API routes without authentication, but if you wish to send requests to the API and see response data, then you must authenticate.\n1. Obtain a JWT token by `POST`ing  to the `/login` route in the `Authentication` section with your API key and credentials.\n1. Paste the JWT token from the response into the \"JWT Token\" field at the top of the page and click the 'Add Token' button.\n\n\nYou will now be able to use the remaining routes to send requests to the API and get a response.\n\n\nLanguage Selection\n----------------\n\n\nLanguage selection is done via the `Accept-Language` header. At the moment, you may only pass one language abbreviation in the header at a time. Valid language abbreviations can be found at the `/languages` route..\n\n\nAuthentication\n----------------\n\n\nAuthentication to use the API is similar to the How-to section above. Users must `POST` to the `/login` route with their API key and credentials in the following format in order to obtain a JWT token.\n\n`{\"apikey\":\"APIKEY\",\"username\":\"USERNAME\",\"userkey\":\"USERKEY\"}`\n\nNote that the username and key are ONLY required for the `/user` routes. The user's key is labled `Account Identifier` in the account section of the main site.\nThe token is then used in all subsequent requests by providing it in the `Authorization` header. The header will look like: `Authorization: Bearer <yourJWTtoken>`. Currently, the token expires after 24 hours. You can `GET` the `/refresh_token` route to extend that expiration date.\n\n\nVersioning\n----------------\n\n\nYou may request a different version of the API by including an `Accept` header in your request with the following format: `Accept:application/vnd.thetvdb.v$VERSION`. This documentation automatically uses the version seen at the top and bottom of the page.",
+    "docsUrl": "",
+    "url": "https://api.apis.guru/v2/specs/thetvdb.com/2.2.0/swagger.json",
+    "envVars": {},
+    "credentials": {
+        "fields": {
+            "server": {
+                "label": "Server",
+                "viewClass": "SelectView",
+                "model": [
+                    "https://api-dev.thetvdb.com/",
+                    "http://api-dev.thetvdb.com/",
+                    "--- Custom URL"
+                ],
+                "required": true
+            },
+            "otherServer": {
+                "label": "Custom Server URL",
+                "viewClass": "TextFieldView"
+            },
+            "jwtToken": {
+                "label": "Authorization (jwtToken)",
+                "viewClass": "TextFieldView",
+                "note": "JWT token prefixed with \"Bearer \""
+            }
+        }
+    },
+    "triggers": {
+        "startFlow": {
+            "main": "./lib/triggers/startFlow.js",
+            "type": "polling",
+            "title": "Start Flow",
+            "fields": {}
+        }
+    },
+    "actions": {
+        "get_episodes__id_": {
+            "main": "./lib/actions/get_episodes__id_.js",
+            "title": "Returns the full information for a given episode id. __Deprecation Warning:__ The _director_ key will be deprecated in favor of the new _directors_ key in a future release.",
+            "description": "Returns the full information for a given episode id. __Deprecation Warning:__ The _director_ key will be deprecated in favor of the new _directors_ key in a future release.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_episodes__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_languages": {
+            "main": "./lib/actions/get_languages.js",
+            "title": "All available languages. These language abbreviations can be used in the `Accept-Language` header for routes that return translation records.",
+            "description": "All available languages. These language abbreviations can be used in the `Accept-Language` header for routes that return translation records.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_languages.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_languages__id_": {
+            "main": "./lib/actions/get_languages__id_.js",
+            "title": "Information about a particular language, given the language ID.",
+            "description": "Information about a particular language, given the language ID.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_languages__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_login": {
+            "main": "./lib/actions/post_login.js",
+            "title": "Returns a session token to be included in the rest of the requests. Note that API key authentication is required for all subsequent requests and user auth is required for routes in the `User` section",
+            "description": "Returns a session token to be included in the rest of the requests. Note that API key authentication is required for all subsequent requests and user auth is required for routes in the `User` section",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_login.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_refresh_token": {
+            "main": "./lib/actions/get_refresh_token.js",
+            "title": "Refreshes your current, valid JWT token and returns a new token. Hit this route so that you do not have to post to `/login` with your API key and credentials once you have already been authenticated.",
+            "description": "Refreshes your current, valid JWT token and returns a new token. Hit this route so that you do not have to post to `/login` with your API key and credentials once you have already been authenticated.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_refresh_token.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_search_series": {
+            "main": "./lib/actions/get_search_series.js",
+            "title": "Allows the user to search for a series based on the following parameters.",
+            "description": "Allows the user to search for a series based on the following parameters.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_search_series.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_search_series_params": {
+            "main": "./lib/actions/get_search_series_params.js",
+            "title": "Returns an array of parameters to query by in the `/search/series` route.",
+            "description": "Returns an array of parameters to query by in the `/search/series` route.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_search_series_params.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_series__id_": {
+            "main": "./lib/actions/get_series__id_.js",
+            "title": "Returns a series records that contains all information known about a particular series id.",
+            "description": "Returns a series records that contains all information known about a particular series id.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_series__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "head_series__id_": {
+            "main": "./lib/actions/head_series__id_.js",
+            "title": "Returns header information only about the given series ID.",
+            "description": "Returns header information only about the given series ID.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/head_series__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_series__id__actors": {
+            "main": "./lib/actions/get_series__id__actors.js",
+            "title": "Returns actors for the given series id",
+            "description": "Returns actors for the given series id",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_series__id__actors.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_series__id__episodes": {
+            "main": "./lib/actions/get_series__id__episodes.js",
+            "title": "All episodes for a given series. Paginated with 100 results per page.",
+            "description": "All episodes for a given series. Paginated with 100 results per page.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_series__id__episodes.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_series__id__episodes_query": {
+            "main": "./lib/actions/get_series__id__episodes_query.js",
+            "title": "This route allows the user to query against episodes for the given series. The response is a paginated array of episode records.",
+            "description": "This route allows the user to query against episodes for the given series. The response is a paginated array of episode records.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_series__id__episodes_query.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_series__id__episodes_query_params": {
+            "main": "./lib/actions/get_series__id__episodes_query_params.js",
+            "title": "Returns the allowed query keys for the `/series/{id}/episodes/query` route",
+            "description": "Returns the allowed query keys for the `/series/{id}/episodes/query` route",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_series__id__episodes_query_params.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_series__id__episodes_summary": {
+            "main": "./lib/actions/get_series__id__episodes_summary.js",
+            "title": "Returns a summary of the episodes and seasons available for the series.\n\n__Note__: Season \"0\" is for all episodes that are considered to be specials.",
+            "description": "Returns a summary of the episodes and seasons available for the series.\n\n__Note__: Season \"0\" is for all episodes that are considered to be specials.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_series__id__episodes_summary.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_series__id__filter": {
+            "main": "./lib/actions/get_series__id__filter.js",
+            "title": "Returns a series records, filtered by the supplied comma-separated list of keys. Query keys can be found at the `/series/{id}/filter/params` route.",
+            "description": "Returns a series records, filtered by the supplied comma-separated list of keys. Query keys can be found at the `/series/{id}/filter/params` route.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_series__id__filter.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_series__id__filter_params": {
+            "main": "./lib/actions/get_series__id__filter_params.js",
+            "title": "Returns the list of keys available for the `/series/{id}/filter` route",
+            "description": "Returns the list of keys available for the `/series/{id}/filter` route",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_series__id__filter_params.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_series__id__images": {
+            "main": "./lib/actions/get_series__id__images.js",
+            "title": "Returns a summary of the images for a particular series",
+            "description": "Returns a summary of the images for a particular series",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_series__id__images.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_series__id__images_query": {
+            "main": "./lib/actions/get_series__id__images_query.js",
+            "title": "Query images for the given series ID.",
+            "description": "Query images for the given series ID.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_series__id__images_query.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_series__id__images_query_params": {
+            "main": "./lib/actions/get_series__id__images_query_params.js",
+            "title": "Returns the allowed query keys for the `/series/{id}/images/query` route. Contains a parameter record for each unique `keyType`, listing values that will return results.",
+            "description": "Returns the allowed query keys for the `/series/{id}/images/query` route. Contains a parameter record for each unique `keyType`, listing values that will return results.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_series__id__images_query_params.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_updated_query": {
+            "main": "./lib/actions/get_updated_query.js",
+            "title": "Returns an array of series that have changed in a maximum of one week blocks since the provided `fromTime`.\n\n\nThe user may specify a `toTime` to grab results for less than a week. Any timespan larger than a week will be reduced down to one week automatically.",
+            "description": "Returns an array of series that have changed in a maximum of one week blocks since the provided `fromTime`.\n\n\nThe user may specify a `toTime` to grab results for less than a week. Any timespan larger than a week will be reduced down to one week automatically.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_updated_query.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_updated_query_params": {
+            "main": "./lib/actions/get_updated_query_params.js",
+            "title": "Returns an array of valid query keys for the `/updated/query/params` route.",
+            "description": "Returns an array of valid query keys for the `/updated/query/params` route.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_updated_query_params.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_user": {
+            "main": "./lib/actions/get_user.js",
+            "title": "Returns basic information about the currently authenticated user.",
+            "description": "Returns basic information about the currently authenticated user.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_user.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_user_favorites": {
+            "main": "./lib/actions/get_user_favorites.js",
+            "title": "Returns an array of favorite series for a given user, will be a blank array if no favorites exist.",
+            "description": "Returns an array of favorite series for a given user, will be a blank array if no favorites exist.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_user_favorites.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "delete_user_favorites__id_": {
+            "main": "./lib/actions/delete_user_favorites__id_.js",
+            "title": "Deletes the given series ID from the user's favorite's list and returns the updated list.",
+            "description": "Deletes the given series ID from the user's favorite's list and returns the updated list.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/delete_user_favorites__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "put_user_favorites__id_": {
+            "main": "./lib/actions/put_user_favorites__id_.js",
+            "title": "Adds the supplied series ID to the user's favorite's list and returns the updated list.",
+            "description": "Adds the supplied series ID to the user's favorite's list and returns the updated list.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/put_user_favorites__id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_user_ratings": {
+            "main": "./lib/actions/get_user_ratings.js",
+            "title": "Returns an array of ratings for the given user.",
+            "description": "Returns an array of ratings for the given user.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_user_ratings.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_user_ratings_query": {
+            "main": "./lib/actions/get_user_ratings_query.js",
+            "title": "Returns an array of ratings for a given user that match the query.",
+            "description": "Returns an array of ratings for a given user that match the query.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_user_ratings_query.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_user_ratings_query_params": {
+            "main": "./lib/actions/get_user_ratings_query_params.js",
+            "title": "Returns a list of query params for use in the `/user/ratings/query` route.",
+            "description": "Returns a list of query params for use in the `/user/ratings/query` route.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_user_ratings_query_params.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "delete_user_ratings__itemType___itemId_": {
+            "main": "./lib/actions/delete_user_ratings__itemType___itemId_.js",
+            "title": "This route deletes a given rating of a given type.",
+            "description": "This route deletes a given rating of a given type.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/delete_user_ratings__itemType___itemId_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "put_user_ratings__itemType___itemId___itemRating_": {
+            "main": "./lib/actions/put_user_ratings__itemType___itemId___itemRating_.js",
+            "title": "This route updates a given rating of a given type.",
+            "description": "This route updates a given rating of a given type.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/put_user_ratings__itemType___itemId___itemRating_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        }
+    }
+}

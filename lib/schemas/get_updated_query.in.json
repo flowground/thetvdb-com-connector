@@ -1,0 +1,15 @@
+{
+    "type": "object",
+    "properties": {
+        "fromTime": {
+            "required": true,
+            "type": "string"
+        },
+        "toTime": {
+            "type": "string"
+        },
+        "Accept_Language": {
+            "type": "string"
+        }
+    }
+}

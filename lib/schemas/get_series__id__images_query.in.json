@@ -1,0 +1,22 @@
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+        },
+        "keyType": {
+            "type": "string"
+        },
+        "resolution": {
+            "type": "string"
+        },
+        "subKey": {
+            "type": "string"
+        },
+        "Accept_Language": {
+            "type": "string"
+        }
+    }
+}
